@@ -4,8 +4,8 @@ import pickle
 import pandas as pd 
 import streamlit as st
 
-from src.paths import MODEL_DIR
-from src.config import LABEL_2_EXERCISE, LABEL_2_TREATMENT 
+from paths import MODEL_DIR
+from config import LABEL_2_EXERCISE, LABEL_2_TREATMENT 
 
 # Load model
 with open(MODEL_DIR/"logistic_regression.pkl", 'rb') as file:
