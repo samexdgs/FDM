@@ -1,3 +1,7 @@
+import os
+import json
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -7,7 +11,6 @@ import networkx as nx
 import random
 import re
 import string
-import nltk
 from nltk.stem import SnowballStemmer
 from nltk.corpus import stopwords
 
@@ -15,8 +18,8 @@ import torch
 
 from scipy.stats import chi2_contingency
 
-from src.config import SEED, EXERCISE_2_LABEL, EXERCISE_2_TREATMENT
-from src.paths import DATA_DIR
+from src.config import SEED, EXERCISE_2_LABEL, LABEL_2_TREATMENT, EXERCISE_DIR
+from src.paths import DATA_DIR, ANIMATION_DIR
 
 
 # -------------------------------------- DATA SIMULATION -----------------------------------------------
@@ -68,18 +71,18 @@ def generate_noisy_data(sample_size: int):
         "Trauma to lower limb", "Stroke", "Early-stage neuropathy",
         "Peripheral nerve damage", "Severe neuropathy"
     ]
-    
+
     symptoms = [
         "Slight foot drop", "Occasional tripping", "Calf soreness, tightness sensation",
         "Difficulty lifting foot", "Noticeable foot drag", "Mild pain in the lower leg",
         "Complete inability to dorsiflex", "Severe pain", "Numbness in foot"
     ]
-    
+
     triggers = [
         "Prolonged standing or sitting", "Fatigue", "Uneven surfaces",
         "Prolonged walking or standing", "Any weight-bearing activity"
     ]
-    
+
     assistive_devices = ["None", "AFO", "Cane", "Wheelchair", "Walker"]
     exercise_classes = ["Flexibility", "Strengthening", "Neuromuscular"]
     pain_intensity_levels = ["None", "Mild", "Moderate", "Severe"]
@@ -103,8 +106,8 @@ def generate_noisy_data(sample_size: int):
         noisy_data.append([
             severity, cause, ", ".join(symptom_list), ", ".join(trigger_list),
             device, exercise, pain_intensity, pain_frequency, pain_type
-        ]) 
-        
+        ])
+
     columns = ["Severity", "Cause of Foot Drop", "Symptoms", "Triggers", "Assistive Devices Used",
                "Exercise", "Pain Intensity", "Pain Frequency", "Pain Type"]
 
@@ -196,15 +199,13 @@ def simulate_dataset(sample_size: int = 2000, add_noise: bool = True, save: bool
                ]
 
     df_clean = pd.DataFrame(data, columns=columns)
-    
-    
+
     # Add noise if required and concatenate
     if add_noise:
         df_noisy = generate_noisy_data(int(0.25 * sample_size))
         df_final = pd.concat([df_clean, df_noisy], ignore_index=True)
     else:
         df_final = df_clean
-
 
     if save:
         # Save to CSV (optional)
@@ -285,7 +286,7 @@ def map_exercises_to_treatments(predicted_exercise: str) -> list:
         list: Recommended treatments corresponding to the exercise class.
     """
     # Refined treatment mapping based on clinical notes
-    treatment_mapping = EXERCISE_2_TREATMENT
+    treatment_mapping = LABEL_2_TREATMENT
 
     # Return treatments for the predicted exercise class
     return treatment_mapping.get(predicted_exercise, [])
@@ -346,8 +347,8 @@ class EDAPlotter:
 
         fig, axes = plt.subplots(nrows, ncols, figsize=(20, 20))
 
-        axes[0, 0].set_title("Common Triggers")
-        sns.countplot(data=df, x="Triggers", ax=axes[0, 0], color="blue")
+        axes[0, 0].set_title("Pain Types")
+        sns.countplot(data=df, x="Pain Type", ax=axes[0, 0], color="blue")
         axes[0, 0].tick_params(axis='x', rotation=50)
 
         axes[0, 1].set_title("Distribution of Foot Drop Cause")
@@ -519,6 +520,26 @@ def clean_text_data(df: pd.DataFrame, text_col: list):
         return lexicon_process(preprocess_text(text), stop_words, stemmer)
     for col in text_col:
         print(f"Cleaning '{col}' column ...")
-    df[col] = [clean_sentence(item, stop_words=stop_words, stemmer=stemmer) for item in df[col].values]
+    df[col] = [clean_sentence(
+        item, stop_words=stop_words, stemmer=stemmer) for item in df[col].values]
 
     print("Dataset succesfully cleaned.")
+
+
+# ---------------------------- Load Recommended Exercises ----------------------------
+
+
+def load_lottie_files(prediction: str, base_dir: Path = ANIMATION_DIR):
+    """
+    Loads all Lottie (.json) animations from the predicted exercise's folder.
+    """
+    full_dir = base_dir / EXERCISE_DIR.get(prediction)
+    animations = []
+
+    if full_dir.exists() and full_dir.is_dir():
+        for file in full_dir.iterdir():
+            if file.suffix == ".json":
+                with open(file, "r", encoding="utf-8") as f:
+                    animations.append(json.load(f))
+
+    return animations
