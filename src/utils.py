@@ -18,8 +18,8 @@ import torch
 
 from scipy.stats import chi2_contingency
 
-from src.config import SEED, EXERCISE_2_LABEL, LABEL_2_TREATMENT, EXERCISE_DIR
-from src.paths import DATA_DIR, ANIMATION_DIR
+from config import SEED, EXERCISE_2_LABEL, LABEL_2_TREATMENT, EXERCISE_DIR
+from paths import DATA_DIR, ANIMATION_DIR
 
 
 # -------------------------------------- DATA SIMULATION -----------------------------------------------
