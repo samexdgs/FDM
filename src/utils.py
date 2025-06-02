@@ -12,13 +12,15 @@ import networkx as nx
 import random
 import re
 import string
+
 import nltk
-nltk.download("stopwords")
+try:
+    stopwords.words("english")
+except LookupError:
+    nltk.download("stopwords")
 
 from nltk.stem import SnowballStemmer
 from nltk.corpus import stopwords
-
-import torch
 
 from scipy.stats import chi2_contingency
 
@@ -28,20 +30,14 @@ from paths import DATA_DIR, ANIMATION_DIR
 
 # -------------------------------------- DATA SIMULATION -----------------------------------------------
 
-def set_seed(seed: int = SEED, seed_torch: bool = True):
+def set_seed(seed: int = SEED):
     """
-    This function sets the seed for PyTorch (both CPU and CUDA), NumPy, and the Python `random` module,
-    enabling CuDNN benchmarking and deterministic algorithms. It is crucial for experiments requiring
-    reproducibility, like model performance comparisons. Note that enabling CuDNN benchmarking and
-    deterministic operations may impact performance and limit certain optimizations.
+    This function sets the seed for NumPy and the Python `random` module.
 
     Args:
         seed (int, optional):
             A non-negative integer that defines the random state. Defaults to 'SEED' value in config file.
 
-        seed_torch (bool, optional): 
-            If `True` sets the random seed for pytorch tensors, so pytorch module
-            must be imported. Defaults to True.
     Returns:
         None
             This function does not return a value but sets the random seed for various libraries.
@@ -56,13 +52,6 @@ def set_seed(seed: int = SEED, seed_torch: bool = True):
     """
     random.seed(seed)
     np.random.seed(seed)
-
-    if seed_torch:
-        torch.manual_seed(seed)
-        torch.cuda.manual_seed_all(seed)
-        torch.cuda.manual_seed(seed)
-        torch.backends.cudnn.benchmark = False
-        torch.backends.cudnn.deterministic = True
 
 
 def generate_noisy_data(sample_size: int):
