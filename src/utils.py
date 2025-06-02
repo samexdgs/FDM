@@ -466,7 +466,7 @@ def preprocess_text(text: str) -> str:
     text = re.compile('[%s]' % re.escape(string.punctuation)).sub(" ", text)
 
     # Remove extra white space
-    text = re.sub('\s+', " ", text)
+    text = re.sub(r'\s+', " ", text)
 
     return text
 
