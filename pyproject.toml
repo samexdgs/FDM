@@ -1,18 +1,20 @@
 [project]
-name = "foot-drop-management"
+name = "foot-drop-mgt"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "jupyter>=1.1.1",
-    "lightgbm>=4.5.0",
-    "matplotlib>=3.10.0",
+    "lightgbm>=4.6.0",
+    "matplotlib>=3.10.1",
+    "networkx>=3.4.2",
     "nltk>=3.9.1",
     "pandas>=2.2.3",
     "scikit-learn>=1.6.1",
-    "scipy>=1.15.1",
     "seaborn>=0.13.2",
-    "streamlit>=1.41.1",
-    "torch>=2.5.1",
+    "streamlit>=1.44.0",
+    "streamlit-lottie>=0.0.5",
+    "torch>=2.6.0",
+    "xgboost>=3.0.0",
 ]
