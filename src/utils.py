@@ -13,6 +13,8 @@ import random
 import re
 import string
 import nltk
+nltk.download("stopwords")
+
 from nltk.stem import SnowballStemmer
 from nltk.corpus import stopwords
 
@@ -23,7 +25,7 @@ from scipy.stats import chi2_contingency
 from config import SEED, EXERCISE_2_LABEL, LABEL_2_TREATMENT, EXERCISE_DIR
 from paths import DATA_DIR, ANIMATION_DIR
 
-nltk.download("stopwords")
+
 # -------------------------------------- DATA SIMULATION -----------------------------------------------
 
 def set_seed(seed: int = SEED, seed_torch: bool = True):
