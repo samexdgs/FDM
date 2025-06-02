@@ -1,14 +1,12 @@
-import sys
-sys.path.append("../")
 import pickle
 import json
 import pandas as pd
 import streamlit as st
 from streamlit_lottie import st_lottie
 
-from src.utils import load_lottie_files
-from src.config import LABEL_2_EXERCISE, LABEL_2_TREATMENT, EXERCISE_DIR
-from src.paths import MODEL_DIR, ANIMATION_DIR
+from utils import load_lottie_files
+from config import LABEL_2_EXERCISE, LABEL_2_TREATMENT, EXERCISE_DIR
+from paths import MODEL_DIR, ANIMATION_DIR
 
 
 
