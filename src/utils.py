@@ -14,13 +14,13 @@ import re
 import string
 
 import nltk
+from nltk.stem import SnowballStemmer
+from nltk.corpus import stopwords
 try:
     stopwords.words("english")
 except LookupError:
     nltk.download("stopwords")
 
-from nltk.stem import SnowballStemmer
-from nltk.corpus import stopwords
 
 from scipy.stats import chi2_contingency
 
