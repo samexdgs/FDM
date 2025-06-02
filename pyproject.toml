@@ -15,6 +15,5 @@ dependencies = [
     "seaborn>=0.13.2",
     "streamlit>=1.44.0",
     "streamlit-lottie>=0.0.5",
-    "torch>=2.6.0",
     "xgboost>=3.0.0",
 ]
