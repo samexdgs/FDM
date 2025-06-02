@@ -9,8 +9,6 @@ from config import LABEL_2_EXERCISE, LABEL_2_TREATMENT, EXERCISE_DIR
 from paths import MODEL_DIR, ANIMATION_DIR
 
 
-
-
 # Load model
 with open(MODEL_DIR/"logistic_regression.pkl", 'rb') as file:
     model = pickle.load(file)
