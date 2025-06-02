@@ -1,13 +1,13 @@
-from src.utils import load_lottie_files
+from utils import load_lottie_files
 import pandas as pd
-from src.config import LABEL_2_EXERCISE, LABEL_2_TREATMENT, EXERCISE_DIR
-from src.paths import MODEL_DIR, ANIMATION_DIR
+from config import LABEL_2_EXERCISE, LABEL_2_TREATMENT, EXERCISE_DIR
+from paths import MODEL_DIR, ANIMATION_DIR
 from streamlit_lottie import st_lottie
 import json
 import streamlit as st
 import pickle
 import sys
-sys.path.append("../")
+# sys.path.append("../")
 
 
 # Load model
