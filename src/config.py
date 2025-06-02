@@ -1,7 +1,5 @@
 
-
 SEED = 42
-
 
 EXERCISE_2_LABEL = {
     "Strengthening": 0,
@@ -13,6 +11,12 @@ LABEL_2_EXERCISE = {
     0: "Strengthening",
     1: "Neuromuscular",
     2: "Flexibility"
+}
+
+EXERCISE_DIR = {
+    "Strengthening": "strength",
+    "Neuromuscular": "FES",
+    "Flexibility": "Flexibility"
 }
 
 LABEL_2_TREATMENT = {
